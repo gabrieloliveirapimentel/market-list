@@ -3,14 +3,7 @@ import '@mui/material/styles'
 
 declare module '@mui/material/styles' {
   interface Palette {
-    gray: {
-      'gray-100': string;
-      'gray-200': string;
-      'gray-300': string;
-      'gray-400': string;
-      'gray-500': string;
-      'gray-600': string;
-    },
+    gray: Record<string, string>;
     success: {
       main: string;
       light: string;
@@ -38,14 +31,7 @@ declare module '@mui/material/styles' {
   }
 
   interface PaletteOptions {
-    gray?: {
-      'gray-100': string;
-      'gray-200': string;
-      'gray-300': string;
-      'gray-400': string;
-      'gray-500': string;
-      'gray-600': string;
-    },
+    gray: Record<string, string>
     success: {
       main: string;
       light: string;
