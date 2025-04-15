@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 
 export function ButtonUsage() {
   return (
-    <Button variant="outlined" color="primary">
+    <Button variant="contained" color="primary">
       Botão
     </Button>
   );
