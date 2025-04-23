@@ -1,17 +1,27 @@
-import { ChipProps, IconProps } from "@mui/material";
+import { IconProps } from "@mui/material";
 import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 
-interface BadgeProps {
-  color: ChipProps["color"];
-  label: string;
-  icon: React.ReactElement<IconProps>;
+export interface BadgeProps {
+  label: string | undefined;
+  color: string | undefined;
+  backgroundColor: string | undefined;
+  icon: React.ReactElement<IconProps> | undefined;
+  isChecked?: boolean;
 }
 
 export default function Badge(props: BadgeProps) {
   return (
-    <Stack direction="row" spacing={1}>
-      <Chip icon={props.icon} color={props.color} label={props.label} />
-    </Stack>
+    <Chip
+      icon={props.icon}
+      label={props.label}
+      sx={{
+        paddingInline: "8px 12px",
+        textTransform: "lowercase",
+        backgroundColor: props.backgroundColor,
+        color: props.color,
+        fontWeight: 600,
+        opacity: props.isChecked ? 0.5 : 1,
+      }}
+    />
   );
 }
