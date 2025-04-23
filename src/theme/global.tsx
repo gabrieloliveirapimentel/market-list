@@ -66,6 +66,35 @@ export const theme = createTheme(base, {
       styleOverrides: {
         root: {
           "& .MuiOutlinedInput-root": {
+            borderRadius: "8px",
+            backgroundColor: base.palette.gray["gray-400"],
+            "& fieldset": {
+              border: "2px solid",
+              borderColor: base.palette.gray["gray-300"],
+            },
+            "&:hover fieldset": {
+              border: "2px solid",
+              borderColor: base.palette.primary.main,
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: base.palette.primary.main,
+            },
+          },
+          "& .MuiInputLabel-root": {
+            color: base.palette.gray["gray-200"],
+            "&.Mui-focused": {
+              color: base.palette.primary.main,
+            },
+          },
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          "& .MuiOutlinedInput-root": {
+            borderRadius: "8px",
+            backgroundColor: base.palette.gray["gray-400"],
             "& fieldset": {
               border: "2px solid",
               borderColor: base.palette.gray["gray-300"],
