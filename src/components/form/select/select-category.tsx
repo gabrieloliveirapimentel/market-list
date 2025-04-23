@@ -43,8 +43,6 @@ export default function SelectCategory() {
       noOptionsText="Nenhuma categoria encontrada"
       onOpen={() => setIsMenuOpen(true)}
       onClose={() => setIsMenuOpen(false)}
-      onFocus={() => setIsFocused(true)}
-      onBlur={() => setIsFocused(false)}
       slotProps={{
         paper: {
           sx: {
@@ -107,7 +105,11 @@ export default function SelectCategory() {
           >
             Categoria
           </Typography>
-          <TextField {...params} />
+          <TextField
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            {...params}
+          />
         </Stack>
       )}
     />
