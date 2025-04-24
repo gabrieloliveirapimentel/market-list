@@ -46,3 +46,15 @@ export const categories: CategoriesProps[] = [
     icon: <Milk color={theme.palette.blue.main} />,
   },
 ];
+
+export interface UnitsProps {
+  id: number;
+  label: string;
+  value: string;
+}
+
+export const units: UnitsProps[] = [
+  { id: 1, label: "Un.", value: "Unidade" },
+  { id: 2, label: "L", value: "Litro" },
+  { id: 3, label: "Kg", value: "Quilograma" },
+];
