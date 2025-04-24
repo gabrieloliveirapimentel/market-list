@@ -24,9 +24,6 @@ export default function SelectCategory() {
   return (
     <Autocomplete
       id="category-select"
-      sx={{
-        width: 300,
-      }}
       popupIcon={
         <ChevronDown
           style={{
@@ -47,8 +44,7 @@ export default function SelectCategory() {
         paper: {
           sx: {
             backgroundColor: theme.palette.gray["gray-400"],
-            border: "2px solid",
-            borderColor: theme.palette.gray["gray-300"],
+            border: `2px solid ${theme.palette.gray["gray-300"]}`,
             boxShadow: "none",
             borderRadius: "6px",
             marginTop: "4px",
@@ -106,6 +102,8 @@ export default function SelectCategory() {
             Categoria
           </Typography>
           <TextField
+            className="input-base"
+            placeholder="Selecione"
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             {...params}

@@ -17,6 +17,7 @@ export function InputBase() {
         Item
       </Typography>
       <TextField
+        className="input-base"
         id="item-field"
         label=""
         variant="outlined"

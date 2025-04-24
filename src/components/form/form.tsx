@@ -1,8 +1,13 @@
-import { FormControl, Grid } from "@mui/material";
+import { useState } from "react";
+import { Box, Fab, Grid } from "@mui/material";
+
 import SelectCategory from "./select/select-category";
 import SelectQuantity from "./select/select-quantity";
-import { useState } from "react";
 import { InputBase } from "./input";
+
+import { Plus } from "lucide-react";
+
+import { FormProvider, useForm } from "react-hook-form";
 
 export function FormUsage() {
   const [quantity, setQuantity] = useState(1);
@@ -13,22 +18,50 @@ export function FormUsage() {
     setUnit(newUnit);
   };
 
+  const form = useForm({});
+
   return (
-    <Grid sx={{ marginBlock: "-60px 40px" }} container>
-      <form>
-        <FormControl
-          fullWidth
-          sx={{ display: "flex", flexDirection: "row", gap: "12px" }}
-        >
-          <InputBase />
-          <SelectQuantity
-            value={quantity}
-            unit={unit}
-            onChange={handleChange}
-          />
-          <SelectCategory />
-        </FormControl>
-      </form>
-    </Grid>
+    <Box
+      sx={{
+        mt: 2,
+      }}
+    >
+      <FormProvider {...form}>
+        <form>
+          <Grid
+            container
+            spacing={2}
+            mb={6}
+            mt={-9}
+            sx={{ flexDirection: { xs: "column", md: "row" } }}
+          >
+            <Grid sx={{ width: { md: "45%", xs: "100%" } }}>
+              <InputBase />
+            </Grid>
+            <Grid sx={{ width: { md: "20%", xs: "100%" } }}>
+              <SelectQuantity
+                value={quantity}
+                unit={unit}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid sx={{ width: { md: "25%", xs: "100%" } }}>
+              <SelectCategory />
+            </Grid>
+            <Grid>
+              <Fab
+                color="primary"
+                type="submit"
+                sx={{
+                  mt: 3.5,
+                }}
+              >
+                <Plus />
+              </Fab>
+            </Grid>
+          </Grid>
+        </form>
+      </FormProvider>
+    </Box>
   );
 }
