@@ -1,0 +1,20 @@
+{
+  "products": [
+    {
+      "id": "34065f63-bcd6-46e7-9b6b-ff046e510494",
+      "label": "Carne bovina",
+      "category": "Carne",
+      "quantity": 1,
+      "unit": "Quilograma",
+      "isChecked": false
+    },
+    {
+      "id": "eab05c8a-c914-4dea-8801-4429b0527e57",
+      "label": "Cerveja",
+      "category": "Bebida",
+      "quantity": 1,
+      "unit": "Litro",
+      "isChecked": false
+    }
+  ]
+}
