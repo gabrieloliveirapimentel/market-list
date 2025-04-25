@@ -5,21 +5,22 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  IconButton,
   IconProps,
 } from "@mui/material";
 import Badge from "./badge";
 import { theme } from "../theme/global";
-import { MoreVerticalIcon } from "lucide-react";
 import { categories } from "../data/data";
+import MenuUsage from "./menu";
 
 interface ListProps {
   isChecked: boolean;
   setIsChecked: (id: string) => void;
+  deleteItem: (id: string) => void;
 }
 
 interface ItemSecondaryProps {
   item: ItemProps;
+  deleteItem: (id: string) => void;
 }
 
 interface ItemProps extends ListProps {
@@ -45,7 +46,9 @@ export function ListCardItem(item: ItemProps) {
           ? theme.palette.gray["gray-400"]
           : theme.palette.gray["gray-300"],
       }}
-      secondaryAction={<ListItemSecondaryAction item={item} />}
+      secondaryAction={
+        <ListItemSecondaryAction item={item} deleteItem={item.deleteItem} />
+      }
     >
       <ListItemIcon>
         <Checkbox
@@ -85,7 +88,7 @@ export function ListCardItem(item: ItemProps) {
   );
 }
 
-function ListItemSecondaryAction({ item }: ItemSecondaryProps) {
+function ListItemSecondaryAction({ item, deleteItem }: ItemSecondaryProps) {
   const itemCategory = categories.find(
     (category) => category.label === item.category
   );
@@ -99,9 +102,11 @@ function ListItemSecondaryAction({ item }: ItemSecondaryProps) {
         icon={itemCategory?.icon as React.ReactElement<IconProps>}
         isChecked={item?.isChecked}
       />
-      <IconButton sx={{ marginLeft: 1, color: theme.palette.primary.light }}>
-        <MoreVerticalIcon />
-      </IconButton>
+      <MenuUsage
+        id={item.id}
+        isChecked={item.isChecked}
+        deleteItem={deleteItem}
+      />
     </Box>
   );
 }

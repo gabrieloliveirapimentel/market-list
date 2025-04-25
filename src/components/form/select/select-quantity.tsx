@@ -42,7 +42,7 @@ export default function SelectQuantity({
         <TextField
           id="quantity"
           className="input-quantity"
-          type="number"
+          type="text"
           {...register(nameQuantity, { valueAsNumber: true })}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}

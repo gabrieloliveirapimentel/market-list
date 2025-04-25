@@ -40,6 +40,11 @@ export function App() {
     setItems((prevItems) => [...prevItems, newItem]);
   }
 
+  function handleDeleteItem(id: string) {
+    const updatedItems = items.filter((item) => item.id !== id);
+    setItems(updatedItems);
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -48,7 +53,7 @@ export function App() {
       <Container>
         <FormUsage addItem={handleAddItem} />
 
-        <Grid container spacing={2}>
+        <Grid container spacing={2} mb={6}>
           {items.length > 0 ? (
             items.map((item) => (
               <ListCardItem
@@ -60,6 +65,7 @@ export function App() {
                 unit={item.unit}
                 isChecked={item.isChecked}
                 setIsChecked={handleCheckItem}
+                deleteItem={handleDeleteItem}
               />
             ))
           ) : (

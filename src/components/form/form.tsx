@@ -67,7 +67,7 @@ export function FormUsage({ addItem }: FormProps) {
       }}
     >
       <FormProvider {...form}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <Grid
             container
             spacing={2}
