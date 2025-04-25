@@ -6,10 +6,11 @@ import {
 } from "@mui/material";
 import { theme } from "./theme/global";
 import { ListCardItem } from "./components/card";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Header } from "./components/header";
 import { Grid } from "@mui/material";
 import { FormUsage } from "./components/form/form";
+import { api } from "./lib/axios";
 
 interface ItemProps {
   id: string;
@@ -23,27 +24,48 @@ interface ItemProps {
 export function App() {
   const [items, setItems] = useState<ItemProps[]>([]);
 
-  function handleCheckItem(id: string) {
-    const updatedItems = items.map((item) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          isChecked: !item.isChecked,
-        };
-      }
-      return item;
+  const fetchProducts = useCallback(async (query?: string) => {
+    const response = await api.get("/products", {
+      params: {
+        _sort: "createdAt",
+        _order: "desc",
+        q: query,
+      },
     });
-    setItems(updatedItems);
-  }
 
-  function handleAddItem(newItem: ItemProps) {
-    setItems((prevItems) => [...prevItems, newItem]);
-  }
+    setItems(response.data);
+  }, []);
 
-  function handleDeleteItem(id: string) {
-    const updatedItems = items.filter((item) => item.id !== id);
-    setItems(updatedItems);
-  }
+  const createProduct = useCallback(async (data: ItemProps) => {
+    const response = await api.post("/products", data);
+
+    setItems((state) => [response.data, ...state]);
+  }, []);
+
+  const deleteProduct = useCallback(async (id: string) => {
+    await api.delete(`/products/${id}`);
+    setItems((state) => state.filter((item) => item.id !== id));
+  }, []);
+
+  const checkItem = useCallback(
+    async (id: string) => {
+      const item = items.find((item) => item.id === id);
+
+      if (item) {
+        const updatedItem = { ...item, isChecked: !item.isChecked };
+
+        await api.put(`/products/${id}`, updatedItem);
+        setItems((state) =>
+          state.map((item) => (item.id === id ? updatedItem : item))
+        );
+      }
+    },
+    [items]
+  );
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -51,7 +73,7 @@ export function App() {
       <Header />
 
       <Container>
-        <FormUsage addItem={handleAddItem} />
+        <FormUsage addItem={createProduct} />
 
         <Grid container spacing={2} mb={6}>
           {items.length > 0 ? (
@@ -64,8 +86,8 @@ export function App() {
                 quantity={item.quantity}
                 unit={item.unit}
                 isChecked={item.isChecked}
-                setIsChecked={handleCheckItem}
-                deleteItem={handleDeleteItem}
+                setIsChecked={checkItem}
+                deleteItem={deleteProduct}
               />
             ))
           ) : (
