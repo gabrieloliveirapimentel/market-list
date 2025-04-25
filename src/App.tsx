@@ -21,32 +21,7 @@ interface ItemProps {
 }
 
 export function App() {
-  const [items, setItems] = useState<ItemProps[]>([
-    {
-      id: "1",
-      label: "Pão francês",
-      category: "Padaria",
-      quantity: 1,
-      unit: "unidade",
-      isChecked: false,
-    },
-    {
-      id: "2",
-      label: "Maçã",
-      category: "Fruta",
-      quantity: 3,
-      unit: "unidades",
-      isChecked: false,
-    },
-    {
-      id: "3",
-      label: "Leite",
-      category: "Bebida",
-      quantity: 2,
-      unit: "litros",
-      isChecked: false,
-    },
-  ]);
+  const [items, setItems] = useState<ItemProps[]>([]);
 
   function handleCheckItem(id: string) {
     const updatedItems = items.map((item) => {
@@ -61,13 +36,17 @@ export function App() {
     setItems(updatedItems);
   }
 
+  function handleAddItem(newItem: ItemProps) {
+    setItems((prevItems) => [...prevItems, newItem]);
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Header />
 
       <Container>
-        <FormUsage />
+        <FormUsage addItem={handleAddItem} />
 
         <Grid container spacing={2}>
           {items.length > 0 ? (
