@@ -1,9 +1,17 @@
+import { useFormContext } from "react-hook-form";
 import { useState } from "react";
 import { Stack, TextField, Typography } from "@mui/material";
 import { theme } from "../../theme/global";
 
-export function InputBase() {
+interface InputBaseProps {
+  name: string;
+}
+
+export function InputBase({ name }: InputBaseProps) {
+  const { register } = useFormContext();
   const [isFocused, setIsFocused] = useState<boolean>(false);
+
+  const registerField = register(name);
 
   return (
     <Stack spacing={1}>
@@ -18,11 +26,17 @@ export function InputBase() {
       </Typography>
       <TextField
         className="input-base"
-        id="item-field"
-        label=""
+        id={name}
         variant="outlined"
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
+        placeholder="Digite o nome"
+        {...registerField}
+        onFocus={() => {
+          setIsFocused(true);
+        }}
+        onBlur={(e) => {
+          setIsFocused(false);
+          registerField.onBlur(e);
+        }}
       />
     </Stack>
   );

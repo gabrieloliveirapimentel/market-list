@@ -1,24 +1,64 @@
-import { useState } from "react";
 import { Box, Fab, Grid } from "@mui/material";
+import { Plus } from "lucide-react";
 
 import SelectCategory from "./select/select-category";
 import SelectQuantity from "./select/select-quantity";
 import { InputBase } from "./input";
 
-import { Plus } from "lucide-react";
-
 import { FormProvider, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
-export function FormUsage() {
-  const [quantity, setQuantity] = useState(1);
-  const [unit, setUnit] = useState("un");
+const formSchema = z.object({
+  productName: z.string().min(1, "Nome do produto é obrigatório"),
+  quantity: z
+    .number({ invalid_type_error: "Quantidade deve ser um número" })
+    .min(1, "Quantidade deve ser maior que 0"),
+  unit: z.string().min(1, "Unidade é obrigatória"),
+  category: z.string().min(1, "Categoria é obrigatória"),
+});
 
-  const handleChange = (newQuantity: number, newUnit: string) => {
-    setQuantity(newQuantity);
-    setUnit(newUnit);
+type FormSchema = z.infer<typeof formSchema>;
+
+interface ItemProps {
+  id: string;
+  label: string;
+  category: string;
+  quantity: number;
+  unit: string;
+  isChecked: boolean;
+}
+
+interface FormProps {
+  addItem: (item: ItemProps) => void;
+}
+
+export function FormUsage({ addItem }: FormProps) {
+  const form = useForm<FormSchema>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      productName: "",
+      quantity: 1,
+      unit: "unidade",
+      category: "",
+    },
+  });
+
+  const { handleSubmit, reset } = form;
+
+  const onSubmit = (data: FormSchema) => {
+    const formattedData = {
+      id: crypto.randomUUID(),
+      label: data.productName,
+      category: data.category,
+      quantity: data.quantity,
+      unit: data.unit,
+      isChecked: false,
+    };
+
+    addItem(formattedData);
+    reset();
   };
-
-  const form = useForm({});
 
   return (
     <Box
@@ -27,7 +67,7 @@ export function FormUsage() {
       }}
     >
       <FormProvider {...form}>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Grid
             container
             spacing={2}
@@ -36,17 +76,13 @@ export function FormUsage() {
             sx={{ flexDirection: { xs: "column", md: "row" } }}
           >
             <Grid sx={{ width: { md: "45%", xs: "100%" } }}>
-              <InputBase />
+              <InputBase name="productName" />
             </Grid>
             <Grid sx={{ width: { md: "20%", xs: "100%" } }}>
-              <SelectQuantity
-                value={quantity}
-                unit={unit}
-                onChange={handleChange}
-              />
+              <SelectQuantity nameQuantity="quantity" nameUnit="unit" />
             </Grid>
             <Grid sx={{ width: { md: "25%", xs: "100%" } }}>
-              <SelectCategory />
+              <SelectCategory name="category" />
             </Grid>
             <Grid>
               <Fab
